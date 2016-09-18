@@ -1,0 +1,18 @@
+# This file configures Terragrunt, which is a thin wrapper for Terraform that supports locking and enforces best
+# practices: https://github.com/gruntwork-io/terragrunt
+
+# Configure Terragrunt to use DynamoDB for locking
+dynamoDbLock = {
+  stateFileId = "stripe-web-form"
+}
+
+# Configure Terragrunt to automatically store tfstate files in an S3 bucket
+remoteState = {
+  backend = "s3"
+  backendConfigs = {
+    encrypt = "true"
+    bucket = "<terraform-state-s3-bucket>"
+    key = "stripe-web-form"
+    region = "<aws-region>"
+  }
+}

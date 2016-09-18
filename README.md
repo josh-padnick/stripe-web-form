@@ -37,6 +37,8 @@ hey can send their helper to these docs.
   account with a valid credit card.
 - The AWS setup is provisioned using [Terraform](https://www.terraform.io/) so you'll need to install that to your local 
   computer, and setup AWS credentials.  
+- To more easily manage [terraform remote state](https://www.terraform.io/docs/state/remote/index.html), we use 
+  [Terragrunt](https://github.com/gruntwork-io/terragrunt). You'll need to install that as well. 
 
 ### Estimated Cost
 
@@ -55,3 +57,13 @@ TODO
   the Stripe API and submits the required information.
 - Finally, the Lambda function will redirect the user to confirmation page and email a customizable message to the user 
   using AWS SES. 
+
+## Setup
+
+To set this up for your organization, do the following:
+
+1. Select an AWS Region, and create an S3 Bucket where your [Terraform Remote 
+   State](https://www.terraform.io/docs/state/remote/index.html) will be stored. 
+
+1. Update the [.terragrunt file](terraform/.terragrunt) with the name and region of the S3 Bucket just created.
+
