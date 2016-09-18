@@ -19,12 +19,12 @@ provider "aws" {
 # ---------------------------------------------------------------------------------------------------------------------
 
 resource "aws_s3_bucket" "webform" {
-    bucket = "${var.website_domain_name}"
-    acl = "public-read"
+  bucket = "${var.website_domain_name}"
+  acl    = "public-read"
 
-    # Define an S3 bucket policy that grants everyone access to all S3 objects. This way, we don't have to specify an Access
-    # Control List (ACL) for each individual S3 object to allow it to be readable by the public. 
-    policy = <<-EOF
+  # Define an S3 bucket policy that grants everyone access to all S3 objects. This way, we don't have to specify an Access
+  # Control List (ACL) for each individual S3 object to allow it to be readable by the public. 
+  policy = <<-EOF
     {
         "Version":"2012-10-17",
         "Statement":[{
@@ -37,16 +37,16 @@ resource "aws_s3_bucket" "webform" {
     }
     EOF
 
-    # Configure S3 Static Website Hosting options
-    website {
-        index_document = "index.html"
-        error_document = "error.html" 
-    }
+  # Configure S3 Static Website Hosting options
+  website {
+    index_document = "index.html"
+    error_document = "error.html"
+  }
 
-    # As a precaution, we choose to save every version of every file uploaded to the S3 bucket.
-    versioning {
-      enabled = true
-    }
+  # As a precaution, we choose to save every version of every file uploaded to the S3 bucket.
+  versioning {
+    enabled = true
+  }
 }
 
 # ---------------------------------------------------------------------------------------------------------------------
@@ -56,9 +56,15 @@ resource "aws_s3_bucket" "webform" {
 # ---------------------------------------------------------------------------------------------------------------------
 
 resource "aws_s3_bucket_object" "index" {
-    bucket = "${aws_s3_bucket.webform.id}"
-    key = "index.html"
-    source = "${path.module}/web/index.html"
-    etag = "${md5(file("${path.module}/web/index.html"))}"
-    content_type = "text/html"
+  bucket       = "${aws_s3_bucket.webform.id}"
+  key          = "index.html"
+  source       = "${path.module}/web/index.html"
+  etag         = "${md5(file("${path.module}/web/index.html"))}"
+  content_type = "text/html"
 }
+
+# ---------------------------------------------------------------------------------------------------------------------
+# CREATE A CLOUDFRONT WEB DISTRIBUTION
+# We can't serve an S3 webiste over HTTPS unless we route it through CloudFront. So we create a CloudFront distribution
+# where our origin server will be the S3 bucket created earlier.
+# ---------------------------------------------------------------------------------------------------------------------
