@@ -65,6 +65,15 @@ To set this up for your organization, do the following:
 1. Select an AWS Region, and create an S3 Bucket where your [Terraform Remote 
    State](https://www.terraform.io/docs/state/remote/index.html) will be stored. 
 
+1. Create a TLS/SSL certificate for your website using the free [AWS Certificate Manager](http://docs.aws.amazon.com/acm/latest/userguide/acm-overview.html).
+   Use whatever website name you want your website to be available at (e.g. `billing.acme.com`). You'll need to make sure
+   you have access to the email address specified in your domain name's WHOIS registration (e.g. webmaster@acme.com). 
+   
+   *TIP: You must create the certificate in the `us-east-1` region! Otherwise, CloudFront won't recognize the certificate.*
+    
+   Once the certificate is created, be sure to note the Amazon Resource Name (ARN) of the certificate as we'll need that
+   shortly.
+
 1. Update the [.terragrunt file](terraform/.terragrunt) with the name and region of the S3 Bucket just created.
 
 1. 

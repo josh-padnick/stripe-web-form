@@ -11,8 +11,8 @@ remoteState = {
   backend = "s3"
   backendConfigs = {
     encrypt = "true"
-    bucket = "<terraform-state-s3-bucket>"
-    key = "stripe-web-form"
-    region = "<aws-region>"
+    bucket = "gruntwork-phxdevops-tfstate"
+    key = "payments.gruntwork.io/stripe-web-form"
+    region = "us-west-2"
   }
 }
